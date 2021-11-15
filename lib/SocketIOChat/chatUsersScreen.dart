@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:livechat_demo/SocketIOChat/chatScreen.dart';
 import 'package:livechat_demo/SocketIOChat/global.dart';
 import 'package:livechat_demo/SocketIOChat/loginScreen.dart';
 import 'package:livechat_demo/SocketIOChat/user.dart';
@@ -20,6 +21,13 @@ class _ChatUsersScreenState extends State<ChatUsersScreen> {
   void initState() {
     super.initState();
     _chatUsers = G.getUsersFor(G.loggedInUser);
+  }
+
+  _openChatScreen(context) async {
+    await Navigator.pushNamed(
+      context,
+      ChatScreen.ROUTE_ID,
+    );
   }
 
   _openLoginScreen(context) async {
@@ -53,14 +61,50 @@ class _ChatUsersScreenState extends State<ChatUsersScreen> {
                   itemBuilder: (context, index) {
                     User user = _chatUsers[index];
                     return ListTile(
+                      onTap: () {
+                        G.toChatUser = user;
+                        _openChatScreen(context);
+                      },
                       title: Text(user.name),
                       subtitle: Text('ID ${user.id}, Email: ${user.email}'),
                     );
                   },
                 ),
-              )
+              ),
+              _bottomChatArea(),
             ],
           ),
         ));
+  }
+
+  _bottomChatArea() {
+    return Container(
+      padding: EdgeInsets.all(10.0),
+      child: Row(
+        children: <Widget>[
+          _chatTextArea(),
+          IconButton(icon: Icon(Icons.send), onPressed: () {})
+        ],
+      ),
+    );
+  }
+
+  _chatTextArea() {
+    return Expanded(
+      child: TextField(
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: EdgeInsets.all(10.0),
+          hintText: 'Type message',
+        ),
+      ),
+    );
   }
 }

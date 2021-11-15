@@ -54,8 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
             OutlineButton(
               child: Text('LOGIN'),
               onPressed: () {
-                 _loginBtnTap();
-
+                _loginBtnTap();
               },
             ),
           ],
@@ -64,18 +63,19 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  _loginBtnTap(){
-    if(_usernameController.text.isEmpty){
+  _loginBtnTap() {
+    if (_usernameController.text.isEmpty) {
       return;
     }
     User me = G.dummyUsers[0];
-    if(_usernameController.text != 'a'){
+    if (_usernameController.text != 'a') {
       me = G.dummyUsers[1];
     }
     G.loggedInUser = me;
     _openChatUsersListScreen(context);
   }
-  _openChatUsersListScreen(context) async{
+
+  _openChatUsersListScreen(context) async {
     await Navigator.pushReplacementNamed(context, ChatUsersScreen.ROUTE_ID);
   }
 }
