@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:livechat_demo/SocketIOChat/chatUsersScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen() : super();
@@ -17,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    _usernameController = TextEditingController();
   }
 
   @override
@@ -46,15 +48,25 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: 20.0,
             ),
-            OutlinedButton(
+            OutlineButton(
               child: Text('LOGIN'),
               onPressed: () {
-                
+                 _loginBtnTap();
               },
             ),
           ],
         ),
       ),
     );
+  }
+
+  _loginBtnTap(){
+    if(_usernameController.text.isEmpty){
+      return;
+    }
+    _openChatUsersListScreen(context);
+  }
+  _openChatUsersListScreen(context) async{
+    await Navigator.pushReplacementNamed(context, ChatUsersScreen.ROUTE_ID);
   }
 }
