@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:livechat_demo/SocketIOChat/chatUsersScreen.dart';
+import 'package:livechat_demo/SocketIOChat/global.dart';
+import 'package:livechat_demo/SocketIOChat/user.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen() : super();
@@ -19,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _usernameController = TextEditingController();
+    G.initDummyUsers();
   }
 
   @override
@@ -52,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Text('LOGIN'),
               onPressed: () {
                  _loginBtnTap();
+
               },
             ),
           ],
@@ -64,6 +68,11 @@ class _LoginScreenState extends State<LoginScreen> {
     if(_usernameController.text.isEmpty){
       return;
     }
+    User me = G.dummyUsers[0];
+    if(_usernameController.text != 'a'){
+      me = G.dummyUsers[1];
+    }
+    G.loggedInUser = me;
     _openChatUsersListScreen(context);
   }
   _openChatUsersListScreen(context) async{
