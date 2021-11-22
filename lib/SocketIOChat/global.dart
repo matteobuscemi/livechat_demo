@@ -1,3 +1,5 @@
+import 'package:livechat_demo/SocketIOChat/socketUtils.dart';
+
 import 'user.dart';
 
 class G {
@@ -6,6 +8,8 @@ class G {
   static User loggedInUser;
 
   static User toChatUser;
+
+  static SocketUtils socketUtils;
 
   static void initDummyUsers() {
     User userA = User(id: 1000, name: 'A', email: 'testa@gmail.com');
@@ -25,5 +29,11 @@ class G {
         .toList();
 
     return filteredUsers;
+  }
+
+  static initSocket() {
+    if (null == socketUtils) {
+      socketUtils = SocketUtils();
+    }
   }
 }

@@ -16,11 +16,69 @@ class ChatUsersScreen extends StatefulWidget {
 
 class _ChatUsersScreenState extends State<ChatUsersScreen> {
   List<User> _chatUsers;
+  bool _connectedToSocket;
+  String _connectMessage;
 
   @override
   void initState() {
     super.initState();
+    _connectedToSocket = false;
+    _connectMessage = 'Connecting...';
     _chatUsers = G.getUsersFor(G.loggedInUser);
+    _connectToSocket();
+  }
+
+  _connectToSocket()  async{
+    print(
+        'Connecting Logged In User ${G.loggedInUser.name}, ${G.loggedInUser.id}');
+    G.initSocket();
+    await G.socketUtils.initSocket(G.loggedInUser);
+    G.socketUtils.connectToSocket();
+    G.socketUtils.setOnConnectListener(onConnect);
+    G.socketUtils.setOnConnectionErrorListener(onConnectionError);
+    G.socketUtils.setOnConnectionTimeOutListener(onConnectionTimeout);
+    G.socketUtils.setOnDisconnectListener(onDisconnect);
+    G.socketUtils.setOnErrorListener(onError);
+  }
+
+  onConnect(data) {
+    print('Connected $data');
+    setState(() {
+      _connectedToSocket = true;
+      _connectMessage = 'Connected';
+    });
+  }
+
+  onConnectionError(data) {
+    print('onConnectionError $data');
+    setState(() {
+      _connectedToSocket = false;
+      _connectMessage = 'Connection Error';
+    });
+  }
+
+  onConnectionTimeout(data) {
+    print('onConnectionTimeout $data');
+    setState(() {
+      _connectedToSocket = false;
+      _connectMessage = 'Connection Timed out';
+    });
+  }
+
+  onError(data) {
+    print('onError $data');
+    setState(() {
+      _connectedToSocket = false;
+      _connectMessage = 'Connection Error';
+    });
+  }
+
+  onDisconnect(data) {
+    print('Disconnected $data');
+    setState(() {
+      _connectedToSocket = false;
+      _connectMessage = 'Disconnected';
+    });
   }
 
   _openChatScreen(context) async {
@@ -55,6 +113,7 @@ class _ChatUsersScreenState extends State<ChatUsersScreen> {
           padding: EdgeInsets.all(30.0),
           child: Column(
             children: <Widget>[
+              Text(_connectedToSocket ? 'Connected' : _connectMessage),
               Expanded(
                 child: ListView.builder(
                   itemCount: _chatUsers.length,
@@ -75,6 +134,4 @@ class _ChatUsersScreenState extends State<ChatUsersScreen> {
           ),
         ));
   }
-
-  
 }
