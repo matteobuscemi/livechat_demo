@@ -41,7 +41,7 @@ class ChatTitle extends StatelessWidget {
       return 'online';
     }
     if (userOnlineStatus == UserOnlineStatus.not_online) {
-      return 'not online';
+      return 'offline';
     }
   }
 }

@@ -71,40 +71,10 @@ class _ChatUsersScreenState extends State<ChatUsersScreen> {
                   },
                 ),
               ),
-              _bottomChatArea(),
             ],
           ),
         ));
   }
 
-  _bottomChatArea() {
-    return Container(
-      padding: EdgeInsets.all(10.0),
-      child: Row(
-        children: <Widget>[
-          _chatTextArea(),
-          IconButton(icon: Icon(Icons.send), onPressed: () {})
-        ],
-      ),
-    );
-  }
-
-  _chatTextArea() {
-    return Expanded(
-      child: TextField(
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: EdgeInsets.all(10.0),
-          hintText: 'Type message',
-        ),
-      ),
-    );
-  }
+  
 }

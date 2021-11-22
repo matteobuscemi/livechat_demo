@@ -1,11 +1,10 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:livechat_demo/SocketIOChat/chatUsersScreen.dart';
-import 'package:livechat_demo/SocketIOChat/global.dart';
-import 'package:livechat_demo/SocketIOChat/user.dart';
+import 'chatUsersScreen.dart';
+import 'global.dart';
+import 'user.dart';
 
 class LoginScreen extends StatefulWidget {
+  //
   LoginScreen() : super();
 
   static const String ROUTE_ID = 'login_screen';
@@ -15,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  //
   TextEditingController _usernameController;
 
   @override
@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Livechat Demo"),
+        title: Text("Let's Chat"),
       ),
       body: Container(
         alignment: Alignment.center,
@@ -41,7 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5.0),
+                  ),
                 ),
                 filled: true,
                 fillColor: Colors.white,
@@ -52,30 +54,35 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 20.0,
             ),
             OutlineButton(
-              child: Text('LOGIN'),
-              onPressed: () {
-                _loginBtnTap();
-              },
-            ),
+                child: Text('LOGIN'),
+                onPressed: () {
+                  _loginBtnTap();
+                })
           ],
         ),
       ),
     );
   }
 
-  _loginBtnTap() {
+  _loginBtnTap() async {
     if (_usernameController.text.isEmpty) {
       return;
     }
+
     User me = G.dummyUsers[0];
     if (_usernameController.text != 'a') {
       me = G.dummyUsers[1];
     }
+
     G.loggedInUser = me;
-    _openChatUsersListScreen(context);
+
+    openHomeScreen(context);
   }
 
-  _openChatUsersListScreen(context) async {
-    await Navigator.pushReplacementNamed(context, ChatUsersScreen.ROUTE_ID);
+  static openHomeScreen(BuildContext context) async {
+    await Navigator.pushReplacementNamed(
+      context,
+      ChatUsersScreen.ROUTE_ID,
+    );
   }
 }

@@ -9,7 +9,7 @@ import 'package:livechat_demo/SocketIOChat/user.dart';
 class ChatScreen extends StatefulWidget {
   ChatScreen() : super();
 
-  static const String ROUTE_ID = 'chat_users_screen';
+  static const String ROUTE_ID = 'chat_screen';
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
